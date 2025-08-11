@@ -12,7 +12,7 @@ body{
     font-size: large;
     background-image: url("bgi.png");
     background-repeat: no-repeat;
-    background-position: top center;
+    background-position: center center;
     background-attachment: fixed;
     background-size: cover; 
 }
