@@ -11,7 +11,7 @@ body{
     font-family: pixel, sans-serif;
     background-image: url("bgi.png");
     background-repeat: no-repeat;
-    background-position: center center; 
+    background-position: top center;
     background-attachment: fixed;
     background-size: cover; 
 }
