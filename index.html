@@ -1,57 +1,129 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CubonGame</title>
-    <link rel="stylesheet" href="styling.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CubonGame</title>
+<style>
+    @font-face { font-family:"pixelf"; src:url("smw.ttf") format("truetype"); }
+:root{--bg:#220000;--text:#ffffff;--accent:#ffde24;--accent2:#ffffff;--maroon:#5a1a0a;--fscale:1;}
+*{margin:0;padding:0;box-sizing:border-box;}html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:"pixelf", monospace;overflow-x:hidden;image-rendering:pixelated;cursor:auto;font-size:calc(1rem * var(--fscale));}
+#cursor{position:fixed;width:12px;height:12px;background:var(--accent);pointer-events:none;z-index:9999;transform:translate(-50%,-50%);box-shadow:0 0 8px rgba(255,215,0,.5);display:none;}
+#particles{position:fixed;inset:0;pointer-events:none;z-index:9998;}
+#sprite{position:fixed;bottom:0;z-index:9990;font-size:2.4rem;pointer-events:auto;cursor:auto;user-select:none;filter:drop-shadow(0 0 6px rgba(255,215,0,.4));display:none;}
+#easter-egg{position:fixed;inset:0;background:rgba(0,0,0,.93);z-index:99999;display:none;flex-direction:column;align-items:center;justify-content:center;gap:1.5rem;text-align:center;padding:2rem;}
+#easter-egg h2{font-size:clamp(2rem,5vw,3.5rem);color:var(--accent);text-shadow:0 0 30px rgba(255,215,0,.6),3px 3px 0 #3a0e05;}
+#easter-egg p{font-size:clamp(1rem,2vw,1.3rem);color:var(--accent2);line-height:2.2;max-width:520px;}
+.hero{position:relative;width:100%;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;}
+.hero-bg{position:absolute;inset:-60px;background-image:url("bgi.png");background-size:cover;background-position:center top;background-repeat:no-repeat;image-rendering:pixelated;will-change:transform;}.hero-bg::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,.16) 3px,rgba(0,0,0,.16) 4px);pointer-events:none;}
+.hero-center{position:relative;z-index:10;display:flex;flex-direction:column;align-items:center;gap:1.5rem;padding:2rem;}
+.hero-center{animation:fadeIn 1s ease both;}
+.eyebrow{font-size:clamp(calc(.9rem * var(--fscale)),1.8vw,calc(1.2rem * var(--fscale)));letter-spacing:.4em;color:var(--accent);opacity:.8;}
+.hero-title{font-size:clamp(calc(4rem * var(--fscale)),12vw,calc(8rem * var(--fscale)));line-height:1;color:var(--accent);text-shadow:4px 4px 0 #3a0e05,8px 8px 0 #1a0502;letter-spacing:.05em;}
+.hero-sub{font-size:clamp(calc(1rem * var(--fscale)),2.2vw,calc(1.4rem * var(--fscale)));color:var(--accent2);letter-spacing:.25em;}
+.hero-btns{display:flex;gap:1.2rem;flex-wrap:wrap;justify-content:center;margin-top:.5rem;}
+.btn{display:inline-block;padding:.7em 1.8em;font-family:"pixelf", monospace;font-size:clamp(calc(1rem * var(--fscale)),2vw,calc(1.3rem * var(--fscale)));text-decoration:none;letter-spacing:.1em;border:3px solid transparent;cursor:none;transition:transform .1s,box-shadow .1s;}
+.btn:active{transform:translate(2px,2px);}
+.btn-p{background:var(--accent);color:#2a0800;border-color:#c8a000;box-shadow:4px 4px 0 #7a5500;}
+.btn-p:hover{box-shadow:6px 6px 0 #7a5500;transform:translate(-1px,-1px);}
+.btn-s{background:transparent;color:var(--text);border-color:var(--text);box-shadow:3px 3px 0 rgba(255,215,0,.3);}
+.btn-s:hover{background:rgba(255,215,0,.08);transform:translate(-1px,-1px);}
+.content{background:var(--bg);position:relative;}
+.content::before{content:"";display:block;height:1px;background:rgba(255,215,0,.25);}
+.section{max-width:820px;margin:0 auto;padding:4rem 2rem;border-bottom:1px solid rgba(255,215,0,.08);}
+.sec-label{font-size:calc(.85rem * var(--fscale));letter-spacing:.5em;color:var(--accent);opacity:.5;text-transform:uppercase;margin-bottom:.8rem;}
+.sec-title{font-size:clamp(calc(1.8rem * var(--fscale)),4vw,calc(2.8rem * var(--fscale)));color:var(--accent);text-shadow:2px 2px 0 #3a0e05;margin-bottom:1.5rem;}
+.body-text{font-size:clamp(calc(1rem * var(--fscale)),2vw,calc(1.25rem * var(--fscale)));line-height:2.2;color:var(--accent2);letter-spacing:0.02em;}
+.cards-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;margin-top:1rem;}
+.card{border:2px solid rgba(255,215,0,.2);padding:1.5rem;background:rgba(90,26,10,.18);position:relative;transition:border-color .2s,transform .15s;}
+.card::before{content:"";position:absolute;top:-2px;left:-2px;width:12px;height:12px;border-top:2px solid var(--accent);border-left:2px solid var(--accent);}
+.card::after{content:"";position:absolute;bottom:-2px;right:-2px;width:12px;height:12px;border-bottom:2px solid var(--accent);border-right:2px solid var(--accent);}
+.card:hover{border-color:rgba(255,215,0,.5);transform:translateY(-3px);}
+.card-name{font-size:clamp(calc(1.1rem * var(--fscale)),2.5vw,calc(1.5rem * var(--fscale)));color:var(--accent);margin-bottom:.6rem;}
+.card-key{display:inline-block;background:var(--maroon);border:2px solid var(--accent);padding:.15em .6em;font-size:calc(.85rem * var(--fscale));letter-spacing:.15em;margin-bottom:.7rem;color:var(--accent);}
+.card-desc{font-size:clamp(calc(.85rem * var(--fscale)),1.7vw,calc(1.05rem * var(--fscale)));line-height:1.9;color:var(--accent2);opacity:.85;}
+.links-list{display:flex;flex-direction:column;gap:.8rem;margin-top:1rem;}
+.link-item{display:inline-block;color:var(--accent);font-size:clamp(calc(1rem * var(--fscale)),2vw,calc(1.3rem * var(--fscale)));text-decoration:none;letter-spacing:.1em;border-bottom:1px solid rgba(255,215,0,.2);padding-bottom:.3em;}
+.link-item:hover{border-bottom-color:var(--accent);}
+.divider{text-align:center;font-size:.85rem;letter-spacing:.4em;opacity:.2;padding:.5rem 0;}
+.watcher{text-align:center;padding:6rem 2rem 5rem;}
+.watcher-eyes{font-size:3.5rem;display:block;margin-bottom:1rem;animation:blink 6s infinite;filter:drop-shadow(0 0 12px rgba(255,215,0,.5));}
+.watcher-text{font-size:clamp(calc(.8rem * var(--fscale)),1.5vw,calc(1.05rem * var(--fscale)));letter-spacing:.5em;opacity:.4;}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes blink{0%,90%,100%{opacity:.4}95%{opacity:0}}
+@media(max-width:500px){.cards-grid{grid-template-columns:1fr}}
+</style>
 </head>
 <body>
-    <h1>CUBON: combining story and speed</h1>
+<div id="cursor"></div>
+<canvas id="particles"></canvas>
+<div id="sprite">&#x1F7E8;</div>
+<div id="easter-egg">
+  <h2>&#x2605; YOU FOUND IT &#x2605;</h2>
+  <p>me see you.<br>me is happi u found dis ❤️<br><br><span style="color:var(--accent)"><=====3</span></p>
+</div>
+<section class="hero">
+  <div class="hero-bg" id="hero-bg"></div>
+  <div class="hero-center">
+    <span class="eyebrow">from the fucked up minds of cotordo games:</span>
+    <h1 class="hero-title">CUBON</h1>
+    <p class="hero-sub">combining story and speed</p>
+    <div class="hero-btns">
+      <a class="btn btn-p" href="https://thebigman477.itch.io/cubon-alpha-1" target="_blank">▶ PLAY ALPHA</a>
+      <a class="btn btn-s" href="https://discord.gg/Qd9bgVEM7t" target="_blank">JOIN DISCORD</a>
+    </div>
+  </div>
+</section>
+<div class="content"><div class="section">
+  
+  <h2 class="sec-title">the story...</h2>
+  <div class="body-text"><p>In CUBON, you play as Cubon. Cubon just so happens to own an arcade. His arcade was blown up by a mysterious figure who crawled up from underground. On the verge of bankruptcy, Cubon discovers a secret passage and drags his girlfriend Cubette down with him, hungry for revenge.</p>
+    <p>He soon learns the truth: his arcade was a target of the underground dictator, King Cubit. So begins Cubon's journey to free everyone from the evil king...</p></div>
+</div></div>
+<div class="content"><div class="section">
+  
+  <h2 class="sec-title">the speed...</h2>
+  <div class="cards-grid">
+  <div class="card">
+    <h3 class="card-name">walking / jumping</h3>
+    <span class="card-key">ARROWS + Z</span>
+    <p class="card-desc">y'know. the basics. you've done this before.</p>
+  </div>
+  <div class="card">
+    <h3 class="card-name">shiftpound</h3>
+    <span class="card-key">SHIFT (air)</span>
+    <p class="card-desc">slam toward the ground at high speed. bounce back up higher than a normal jump.</p>
+  </div>
+  <div class="card">
+    <h3 class="card-name">dash</h3>
+    <span class="card-key">X</span>
+    <p class="card-desc">launch forward and destroy any enemies in your path.</p>
+  </div>
+  <div class="card">
+    <h3 class="card-name">wall slide / jump</h3>
+    <span class="card-key">WALL + Z</span>
+    <p class="card-desc">hug a wall and you'll slide rather than fall. press Z to wall jump.</p>
+  </div>
+  </div>
+</div></div>
+<div class="content"><div class="section">
+  
+  <h2 class="sec-title">the OST...</h2>
+  <div class="body-text"><p>the original soundtrack is being composed with the help of some talented folks: @chicharron_prensado_06, @d1_trainstation_01.bsp, and @kamerade</p>
+    <p>so far the OST has a heavy 60s-70s jazz theme to it.</p></div>
+</div></div>
+<div class="watcher">
+  
+  <p class="watcher-text">he is watching. he is waiting.</p>
+</div>
 
-    <h2>what is cubon?</h2>
-    <p>cubon is an action platformer with an emphesis on speed and story. THE ALPHA IS OUT!</p>
-    <a href="https://thebigman477.itch.io/cubon-alpha-1">RIGHT HERE!</a>
+<script>
 
-    <h2>the story...</h2>
-    <p>In CUBON, you play as, well, cubon. Cubon's arcade was blown up by someone who came up from his basement</p>
-    <p>in the beggining of the story, setting off the main events. after the attack and rebuilding of his arcade,</p>
-    <p>nobody returned due to fear of another attack. So cubon, on the verge of bankruptcy and tired, goes down</p>
-    <p>and discovers where the person had come from: a secret passage. he ends up dragging his girfriend,</p>
-    <p>cubette, down there for revenge. he later finds out that his arcade was a target by the underground</p>
-    <p>dictator, king cubit. the reason his arcade was blown up was becuase his subjects could escape his underground</p>
-    <p>kingdom through it. And so, cubon's journey to free everyone from the evil king begins...</p>
+const heroBg=document.getElementById('hero-bg');if(heroBg)window.addEventListener('scroll',()=>{heroBg.style.transform='translateY('+(window.scrollY*.35)+'px)';},{passive:true});
+const canvas=document.getElementById('particles');if(canvas){const ctx=canvas.getContext('2d');let W=canvas.width=window.innerWidth,H=canvas.height=window.innerHeight;window.addEventListener('resize',()=>{W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight;});const COLS=['#ffde24','#ffffff','#ff69b4','#6ab4ff'];const parts=[];function spawn(x,y,n){for(let i=0;i<n;i++)parts.push({x,y,vx:(Math.random()-.5)*6,vy:(Math.random()-.5)*6-2,size:((Math.random()*4+2)|0),color:COLS[Math.floor(Math.random()*COLS.length)],life:1,decay:Math.random()*.03+.02});}document.addEventListener('click',e=>spawn(e.clientX,e.clientY,14));let lt=0;document.addEventListener('mousemove',e=>{const n=Date.now();if(n-lt>80){spawn(e.clientX,e.clientY,1);lt=n;}});(function loop(){ctx.clearRect(0,0,W,H);for(let i=parts.length-1;i>=0;i--){const p=parts[i];p.x+=p.vx;p.y+=p.vy;p.vy+=.18;p.life-=p.decay;if(p.life<=0){parts.splice(i,1);continue;}ctx.globalAlpha=p.life;ctx.fillStyle=p.color;ctx.fillRect(p.x|0,p.y|0,p.size,p.size);}ctx.globalAlpha=1;requestAnimationFrame(loop);})();}
 
-    <h2>the speed</h2>
-    <p>CUBON has several special moves that you can use to get around!</p>
-
-    <h3>walking/jumping</h3>
-    <p>c'mon... do i really have to explain what we do everyday? z to jump, arrows to move</p>
-
-    <h3>shiftpound</h3>
-    <p>by pressing shift while in the air, cubon accels toward the ground at high speeds! if you keep holding shift,</p>
-    <p>cubon will bounce back up, higher than he can regulary jump! can also be used to dismantle enemies</p>
-
-    <h3>dash</h3>
-    <p>by pressing x, cubon will launch forward, destroying any enemies in his path! in the future, cubon will be able</p>
-    <p>to destroy blocks with it</p>
-
-    <h3>wall slide/jump</h3>
-    <p>when "hugging" a wall, cubon will slide down rather than fall. if you press z while this is happening, you will</p>
-    <p>walljump!</p>
-
-    <h2>the discord...</h2>
-    <p>do you like what you see? </p><a href="https://discord.gg/Qd9bgVEM7t">JOIN THE DISCORD BRO!!</a>
-    
-    <h2>the OST...</h2>
-    <p>the ost is being composed with the help of @chicharron_prensado_06 and @d1_trainstation_01.bsp</p>
-    <p>&nbsp;</p>
-    <p>&nbsp;</p>
-    <p>&nbsp;</p>
-    <p>&nbsp;</p>
-    <p>&nbsp;</p>
-    <p>&nbsp;</p>
-    <p>he is watching. he is waiting.</p>
-
-    
+const SECRET='cubon';let typed='';const egg=document.getElementById('easter-egg');if(egg){document.addEventListener('keydown',e=>{if(e.key.length!==1)return;typed+=e.key.toLowerCase();if(typed.length>SECRET.length)typed=typed.slice(-SECRET.length);if(typed===SECRET){typed='';egg.style.display='flex';}});egg.addEventListener('click',()=>{egg.style.display='none';});}
+</script>
 </body>
 </html>
