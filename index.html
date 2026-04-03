@@ -6,7 +6,7 @@
 <title>CubonGame</title>
 <style>
     @font-face { font-family:"pixelf"; src:url("smw.ttf") format("truetype"); }
-:root{--bg:#220000;--text:#ffffff;--accent:#ffde24;--accent2:#ffffff;--maroon:#5a1a0a;--fscale:1;}
+:root{--bg:#220000;--text:#ffffff;--accent:#ffd700;--accent2:#d2dbff;--maroon:#5a1a0a;--fscale:1;}
 *{margin:0;padding:0;box-sizing:border-box;}html{scroll-behavior:smooth;}
 body{background:var(--bg);color:var(--text);font-family:"pixelf", monospace;overflow-x:hidden;image-rendering:pixelated;cursor:auto;font-size:calc(1rem * var(--fscale));}
 #cursor{position:fixed;width:12px;height:12px;background:var(--accent);pointer-events:none;z-index:9999;transform:translate(-50%,-50%);box-shadow:0 0 8px rgba(255,215,0,.5);display:none;}
@@ -16,9 +16,9 @@ body{background:var(--bg);color:var(--text);font-family:"pixelf", monospace;over
 #easter-egg h2{font-size:clamp(2rem,5vw,3.5rem);color:var(--accent);text-shadow:0 0 30px rgba(255,215,0,.6),3px 3px 0 #3a0e05;}
 #easter-egg p{font-size:clamp(1rem,2vw,1.3rem);color:var(--accent2);line-height:2.2;max-width:520px;}
 .hero{position:relative;width:100%;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;}
-.hero-bg{position:absolute;inset:-60px;background-image:url("bgi.png");background-size:cover;background-position:center top;background-repeat:no-repeat;image-rendering:pixelated;will-change:transform;}.hero-bg::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,.16) 3px,rgba(0,0,0,.16) 4px);pointer-events:none;}
+.hero-bg{position:absolute;inset:-60px;background-image:url("bgi.png");background-size:cover;background-position:center top;background-repeat:no-repeat;image-rendering:pixelated;will-change:transform;}
 .hero-center{position:relative;z-index:10;display:flex;flex-direction:column;align-items:center;gap:1.5rem;padding:2rem;}
-.hero-center{animation:fadeIn 1s ease both;}
+.hero-center{animation:fadeIn 0.4s ease both;}
 .eyebrow{font-size:clamp(calc(.9rem * var(--fscale)),1.8vw,calc(1.2rem * var(--fscale)));letter-spacing:.4em;color:var(--accent);opacity:.8;}
 .hero-title{font-size:clamp(calc(4rem * var(--fscale)),12vw,calc(8rem * var(--fscale)));line-height:1;color:var(--accent);text-shadow:4px 4px 0 #3a0e05,8px 8px 0 #1a0502;letter-spacing:.05em;}
 .hero-sub{font-size:clamp(calc(1rem * var(--fscale)),2.2vw,calc(1.4rem * var(--fscale)));color:var(--accent2);letter-spacing:.25em;}
@@ -36,9 +36,7 @@ body{background:var(--bg);color:var(--text);font-family:"pixelf", monospace;over
 .sec-title{font-size:clamp(calc(1.8rem * var(--fscale)),4vw,calc(2.8rem * var(--fscale)));color:var(--accent);text-shadow:2px 2px 0 #3a0e05;margin-bottom:1.5rem;}
 .body-text{font-size:clamp(calc(1rem * var(--fscale)),2vw,calc(1.25rem * var(--fscale)));line-height:2.2;color:var(--accent2);letter-spacing:0.02em;}
 .cards-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;margin-top:1rem;}
-.card{border:2px solid rgba(255,215,0,.2);padding:1.5rem;background:rgba(90,26,10,.18);position:relative;transition:border-color .2s,transform .15s;}
-.card::before{content:"";position:absolute;top:-2px;left:-2px;width:12px;height:12px;border-top:2px solid var(--accent);border-left:2px solid var(--accent);}
-.card::after{content:"";position:absolute;bottom:-2px;right:-2px;width:12px;height:12px;border-bottom:2px solid var(--accent);border-right:2px solid var(--accent);}
+.card{border:1px solid rgba(255,215,0,.25);padding:1.5rem;background:rgba(90,26,10,.18);position:relative;transition:border-color .2s,transform .15s;}
 .card:hover{border-color:rgba(255,215,0,.5);transform:translateY(-3px);}
 .card-name{font-size:clamp(calc(1.1rem * var(--fscale)),2.5vw,calc(1.5rem * var(--fscale)));color:var(--accent);margin-bottom:.6rem;}
 .card-key{display:inline-block;background:var(--maroon);border:2px solid var(--accent);padding:.15em .6em;font-size:calc(.85rem * var(--fscale));letter-spacing:.15em;margin-bottom:.7rem;color:var(--accent);}
@@ -61,7 +59,7 @@ body{background:var(--bg);color:var(--text);font-family:"pixelf", monospace;over
 <div id="sprite">&#x1F7E8;</div>
 <div id="easter-egg">
   <h2>&#x2605; YOU FOUND IT &#x2605;</h2>
-  <p>me see you.<br>me is happi u found dis ❤️<br><br><span style="color:var(--accent)"><=====3</span></p>
+  <p>hello<br>me happi you found this<br><br><span style="color:var(--accent)">[bro typed cubon to find this]</span></p>
 </div>
 <section class="hero">
   <div class="hero-bg" id="hero-bg"></div>
@@ -78,12 +76,12 @@ body{background:var(--bg);color:var(--text);font-family:"pixelf", monospace;over
 <div class="content"><div class="section">
   
   <h2 class="sec-title">the story...</h2>
-  <div class="body-text"><p>In CUBON, you play as Cubon. Cubon just so happens to own an arcade. His arcade was blown up by a mysterious figure who crawled up from underground. On the verge of bankruptcy, Cubon discovers a secret passage and drags his girlfriend Cubette down with him, hungry for revenge.</p>
+  <div class="body-text"><p>In CUBON, you play as Cubon. His arcade was blown up by a mysterious figure who crawled up from underground. On the verge of bankruptcy, Cubon discovers a secret passage and drags his girlfriend Cubette down with him, hungry for revenge.</p>
     <p>He soon learns the truth: his arcade was a target of the underground dictator, King Cubit. So begins Cubon's journey to free everyone from the evil king...</p></div>
 </div></div>
 <div class="content"><div class="section">
   
-  <h2 class="sec-title">the speed...</h2>
+  <h2 class="sec-title">the speed</h2>
   <div class="cards-grid">
   <div class="card">
     <h3 class="card-name">walking / jumping</h3>
@@ -110,8 +108,7 @@ body{background:var(--bg);color:var(--text);font-family:"pixelf", monospace;over
 <div class="content"><div class="section">
   
   <h2 class="sec-title">the OST...</h2>
-  <div class="body-text"><p>the original soundtrack is being composed with the help of some talented folks: @chicharron_prensado_06, @d1_trainstation_01.bsp, and @kamerade</p>
-    <p>so far the OST has a heavy 60s-70s jazz theme to it.</p></div>
+  <div class="body-text"><p>the original soundtrack is being composed with the help of some talented folks: @chicharron_prensado_06, @d1_trainstation_01.bsp, and @kamerade</p></div>
 </div></div>
 <div class="watcher">
   
@@ -121,7 +118,7 @@ body{background:var(--bg);color:var(--text);font-family:"pixelf", monospace;over
 <script>
 
 const heroBg=document.getElementById('hero-bg');if(heroBg)window.addEventListener('scroll',()=>{heroBg.style.transform='translateY('+(window.scrollY*.35)+'px)';},{passive:true});
-const canvas=document.getElementById('particles');if(canvas){const ctx=canvas.getContext('2d');let W=canvas.width=window.innerWidth,H=canvas.height=window.innerHeight;window.addEventListener('resize',()=>{W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight;});const COLS=['#ffde24','#ffffff','#ff69b4','#6ab4ff'];const parts=[];function spawn(x,y,n){for(let i=0;i<n;i++)parts.push({x,y,vx:(Math.random()-.5)*6,vy:(Math.random()-.5)*6-2,size:((Math.random()*4+2)|0),color:COLS[Math.floor(Math.random()*COLS.length)],life:1,decay:Math.random()*.03+.02});}document.addEventListener('click',e=>spawn(e.clientX,e.clientY,14));let lt=0;document.addEventListener('mousemove',e=>{const n=Date.now();if(n-lt>80){spawn(e.clientX,e.clientY,1);lt=n;}});(function loop(){ctx.clearRect(0,0,W,H);for(let i=parts.length-1;i>=0;i--){const p=parts[i];p.x+=p.vx;p.y+=p.vy;p.vy+=.18;p.life-=p.decay;if(p.life<=0){parts.splice(i,1);continue;}ctx.globalAlpha=p.life;ctx.fillStyle=p.color;ctx.fillRect(p.x|0,p.y|0,p.size,p.size);}ctx.globalAlpha=1;requestAnimationFrame(loop);})();}
+const canvas=document.getElementById('particles');if(canvas){const ctx=canvas.getContext('2d');let W=canvas.width=window.innerWidth,H=canvas.height=window.innerHeight;window.addEventListener('resize',()=>{W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight;});const COLS=['#ffd700','#d2dbff','#ff69b4','#6ab4ff'];const parts=[];function spawn(x,y,n){for(let i=0;i<n;i++)parts.push({x,y,vx:(Math.random()-.5)*6,vy:(Math.random()-.5)*6-2,size:((Math.random()*4+2)|0),color:COLS[Math.floor(Math.random()*COLS.length)],life:1,decay:Math.random()*.03+.02});}document.addEventListener('click',e=>spawn(e.clientX,e.clientY,14));let lt=0;document.addEventListener('mousemove',e=>{const n=Date.now();if(n-lt>80){spawn(e.clientX,e.clientY,1);lt=n;}});(function loop(){ctx.clearRect(0,0,W,H);for(let i=parts.length-1;i>=0;i--){const p=parts[i];p.x+=p.vx;p.y+=p.vy;p.vy+=.18;p.life-=p.decay;if(p.life<=0){parts.splice(i,1);continue;}ctx.globalAlpha=p.life;ctx.fillStyle=p.color;ctx.fillRect(p.x|0,p.y|0,p.size,p.size);}ctx.globalAlpha=1;requestAnimationFrame(loop);})();}
 
 const SECRET='cubon';let typed='';const egg=document.getElementById('easter-egg');if(egg){document.addEventListener('keydown',e=>{if(e.key.length!==1)return;typed+=e.key.toLowerCase();if(typed.length>SECRET.length)typed=typed.slice(-SECRET.length);if(typed===SECRET){typed='';egg.style.display='flex';}});egg.addEventListener('click',()=>{egg.style.display='none';});}
 </script>
